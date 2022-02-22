@@ -20,6 +20,11 @@ export class Form extends Component {
     const { name, email, message } = this.state;
     const dr = { name, email, message };
     this.props.addDjangoreact(dr);
+    this.setState({
+      name: "",
+      email: "",
+      message: ""
+    });
    }
   render() {
     const { name, email, message } = this.state
