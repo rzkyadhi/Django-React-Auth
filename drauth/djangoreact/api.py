@@ -3,8 +3,13 @@ from djangoreact.serizalizers import EmployeeSerializer
 from rest_framework import viewsets, permissions
 
 class EmployeeViewSet(viewsets.ModelViewSet):
-    queryset = Employee.objects.all()
     permission_classes = [
-        permissions.AllowAny
+        permissions.IsAuthenticated
     ]
     serializer_class = EmployeeSerializer
+
+    def get_queryset(self):
+        return self.request.user.djangoreact.all()
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)

@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { GET_DJANGOREACT, DELETE_DJANGOREACT, ADD_DJANGOREACT, GET_ERRORS } from './types';
-import { createMessage } from './messages';
+import { GET_DJANGOREACT, DELETE_DJANGOREACT, ADD_DJANGOREACT } from './types';
+import { createMessage, returnErrors } from './messages';
 
 // GET DJANGOREACT
 export const getDjangoreact = () => dispatch => {
@@ -12,7 +12,7 @@ export const getDjangoreact = () => dispatch => {
                 payload: res.data
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 };
 
 // DELETE DJANGOREACT
@@ -40,14 +40,5 @@ export const addDjangoreact = djangoreact => dispatch => {
                 payload: res.data
             });
         })
-        .catch(err => {
-            const errors = {
-                msg: err.response.data,
-                status: err.response.status
-            }
-            dispatch({
-                type: GET_ERRORS,
-                payload: errors
-            });
-        });
+        .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 };
